@@ -24,6 +24,9 @@ jobs:
     - name: Build and start services with Docker Compose
       run: docker compose -f docker-compose.yml up -d
 
+    - name: check containers running
+      run: docker ps
+
     - name: Run integration tests
       run: pipenv run pytest tests/integration
 
