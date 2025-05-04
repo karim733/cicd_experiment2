@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  ft_test_service:
+    build:
+      context: ./src/ft_test_service
+    ports:
+      - "8002:8002"
+    networks:
+      - router-test-network
+
+  rag_test_service:
+    build:
+      context: ./src/rag_test_service
+    ports:
+      - "8003:8003"
+    networks:
+      - router-test-network
+
+  routing_agent_service:
+    build:
+      context: ./src/routing_agent_service
+    ports:
+      - "8001:8001"
+    networks:
+      - router-test-network
+
+networks:
+  router-test-network:
+    driver: bridge
