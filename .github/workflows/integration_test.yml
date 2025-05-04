@@ -1,0 +1,32 @@
+name: Multi-Container Full Test
+
+on: [push, pull_request]
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+
+    - name: Install Pipenv
+      run: pip install pipenv
+
+    - name: Install dependencies
+      run: pipenv install
+
+    - name: Build and start services with Docker Compose
+      run: docker compose -f docker-compose.yml up -d
+
+    - name: Run integration tests
+      run: pipenv run pytest tests/integration
+
+    - name: Tear down services
+      if: always()
+      run: docker compose down
